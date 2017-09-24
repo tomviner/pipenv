@@ -15,6 +15,7 @@ install:
 
 # command to run the dependencies
 script:
+  - "echo $PATH"
   - "pipenv run pytest tests/test_pipenv.py tests/test_project.py tests/test_utils.py"
 
 # command to run tests
