@@ -73,6 +73,7 @@ class TestPipenv:
     @pytest.mark.cli
     def test_pipenv_venv(self):
         with PipenvInstance() as p:
+            print(os.environ['PATH'])
             p.pipenv('--python python')
             assert p.pipenv('--venv').out
 
@@ -388,7 +389,6 @@ requests = {version = "*"}
 
     @pytest.mark.dotenv
     def test_env(self):
-        os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
         with PipenvInstance(pipfile=False) as p:
             with open('.env', 'w') as f:
                 f.write('HELLO=WORLD')
@@ -396,7 +396,6 @@ requests = {version = "*"}
             c = p.pipenv('run python -c "import os; print(os.environ[\'HELLO\'])"')
             assert c.return_code == 0
             assert 'WORLD' in c.out
-        os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
 
     @pytest.mark.e
     @pytest.mark.install
@@ -411,5 +410,6 @@ requests = {version = "*"}
             key = [k for k in p.pipfile['dev-packages'].keys()][0]
             assert 'path' in p.pipfile['dev-packages'][key]
             assert 'requests' in p.lockfile['develop']
+
 
 
