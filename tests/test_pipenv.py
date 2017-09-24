@@ -73,11 +73,11 @@ class TestPipenv:
     @pytest.mark.cli
     def test_pipenv_venv(self):
         with PipenvInstance() as p:
-            print(os.environ['PATH'])
-            print(delegator.run('which pipenv').out)
-            print(delegator.run('which pipenv').err)
             p.pipenv('--python python')
             assert p.pipenv('--venv').out
+        print(os.environ['PATH'])
+        print(delegator.run('which pipenv').out)
+        print(delegator.run('which pipenv').err)
 
     @pytest.mark.cli
     def test_pipenv_py(self):
