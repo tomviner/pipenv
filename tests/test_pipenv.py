@@ -388,6 +388,7 @@ requests = {version = "*"}
 
     @pytest.mark.dotenv
     def test_env(self):
+        os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
         with PipenvInstance(pipfile=False) as p:
             with open('.env', 'w') as f:
                 f.write('HELLO=WORLD')
@@ -395,12 +396,12 @@ requests = {version = "*"}
             c = p.pipenv('run python -c "import os; print(os.environ[\'HELLO\'])"')
             assert c.return_code == 0
             assert 'WORLD' in c.out
+        os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
 
     @pytest.mark.e
     @pytest.mark.install
     @pytest.mark.skip(reason="this doesn't work on windows")
     def test_e_dot(self):
-        os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
         with PipenvInstance() as p:
             path = os.path.abspath(os.path.sep.join([os.path.dirname(__file__), '..']))
             c = p.pipenv('install -e \'{0}\' --dev'.format(path))
@@ -410,6 +411,5 @@ requests = {version = "*"}
             key = [k for k in p.pipfile['dev-packages'].keys()][0]
             assert 'path' in p.pipfile['dev-packages'][key]
             assert 'requests' in p.lockfile['develop']
-        os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
 
 
