@@ -15,7 +15,7 @@ install:
 
 # command to run the dependencies
 script:
-  - "pipenv run pytest -n 8 tests"
+  - "pipenv run pytest -n 8 tests/test_pipenv.py tests/test_project.py tests/test_utils.py"
 
 # command to run tests
 # jobs:
